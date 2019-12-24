@@ -63,3 +63,5 @@ Import SPL.
     - rewrite H. apply assetRefinementReflexivity_axiom.
     Qed.
 
+    Axiom fmref: FMRef = FMRef_Func.
+

@@ -51,7 +51,10 @@ Instance Ins_SPL: SPL Asset AssetName AM Conf FM AM CK PL:=
 }.
 Proof.
 { (*plStrongS ubset*)
-  admit.
+    intros.
+    destruct pl3. destruct pl4.  unfold strongerPLrefinement_func in H.
+    specialize (H c1). rewrite fmref in H0. destruct c1, c0.  apply H in H0.
+    destruct  H0. rewrite fmref. apply H0.
 
 } {(*fmEquivalenceCompositionality*)
   intros.
@@ -196,4 +199,4 @@ Proof.
         - apply H0.
         - generalize H3. generalize H2. apply assetRefinementTranstivity_axiom.
 
-} Admitted.
+} Qed.

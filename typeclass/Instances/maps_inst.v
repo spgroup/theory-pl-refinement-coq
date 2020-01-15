@@ -8,7 +8,8 @@ Require Import Coq.Arith.Arith.
 Require Import Coq.Init.Specif.
 Require Export Coq.Lists.List.
 
-Instance Maps_Inst : Maps S T map_:=
+
+Program Instance Maps_Inst : Maps S T map_:=
 {
   unique_ := unique_func;
   dom_ := dom_func;
@@ -21,33 +22,31 @@ Instance Maps_Inst : Maps S T map_:=
   set_add_S := set_add_S_func;
   set_add_T := set_add_T_func;
 
-}. Proof.
-{ (*mappingUnique*)
+}. Next Obligation.
+{ (*mappingUnique*) 
   induction m.
     + intros. intuition.
-    + intros. specialize (IHm l).
+    + intros. 
       left. unfold unique_func. intros.
       rewrite r1, r2. reflexivity.
 
-} { (*inDom*)
+} Qed. 
+{ Next Obligation. (*inDom*)
   intros.
     induction m.
       + simpl in H. contradiction.
       + apply isMappable_elim in H. intuition.
         - rewrite H. apply set_add_intro2. reflexivity.
-        - simpl. apply set_add_intro1. apply H. 
-}{ (*eqdecS*)
+        - simpl. apply set_add_intro1. apply H.
+Qed. }
+{ Next Obligation. (*eqdecS*)
   apply Seq_dec.
-}{ (*eqdecT*)
+  Qed.
+}{ Next Obligation. (*eqdecT*)
   apply Teq_dec.
-}{ (*unionMap*)
-  admit.
-}{ (*existsMap*)
-  admit.
-}{ (*notExists*)
-  admit.
-}{ (*mapAM*)
-  admit.
-} Admitted.
+  Qed.
+}
+ Admit Obligations.
+
 
 

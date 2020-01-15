@@ -31,10 +31,7 @@ Import FeatureModelSPL.
 Import AssetMappingSPL.
 Import SPL. 
 
-
-
-
-Instance Ins_SPL: SPL Asset AssetName AM Conf FM AM CK PL:=
+Program Instance Ins_SPL: SPL Asset AssetName AM Conf FM AM CK PL:=
 {
   getFM:= getFM_func;
   getAM:= getAM_func;
@@ -49,14 +46,13 @@ Instance Ins_SPL: SPL Asset AssetName AM Conf FM AM CK PL:=
   strongerPLRefinement:= strongerPLrefinement_func;
 
 }.
-Proof.
+Next Obligation.
 { (*plStrongS ubset*)
-    intros.
-    destruct pl3. destruct pl4.  unfold strongerPLrefinement_func in H.
-    specialize (H c1). rewrite fmref in H0. destruct c1, c0.  apply H in H0.
-    destruct  H0. rewrite fmref. apply H0.
-
-} {(*fmEquivalenceCompositionality*)
+  intros.
+    destruct pl1. destruct pl2.  unfold strongerPLrefinement_func in H.
+    specialize (H c). destruct c1, c0.  apply H in H0.
+    destruct  H0. apply H0.
+} Qed. Next Obligation. {(*fmEquivalenceCompositionality*)
   intros.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
@@ -68,9 +64,8 @@ Proof.
     + unfold wfPL_func. intros.
       unfold equivalentFMs in H.
        intuition.
-} {(*weakFMcompositionality*)
-  intros. 
-    destruct H.   
+} Qed. Next Obligation. {(*weakFMcompositionality*)
+  intros.  
     unfold plRefinement_func. 
     intros. exists c1.  split.
       +  unfold getFM_func. simpl.  unfold getFM_func in H1. destruct pl in H1.
@@ -79,7 +74,7 @@ Proof.
       + unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
 
-}{(*ckEquivalenceCompositionality*)
+} Qed. Next Obligation. {(*ckEquivalenceCompositionality*)
   intros.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
@@ -92,7 +87,7 @@ Proof.
       unfold equivalentFMs in H.
       intuition.
 
-}{(*weakerCKcompositionality*)
+} Qed. Next Obligation. {(*weakerCKcompositionality*)
  intros.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
@@ -104,7 +99,7 @@ Proof.
     + unfold wfPL_func. intros.
       unfold equivalentFMs in H.
       intuition.
-}{(*amRefinementCompositionality*)
+} Qed. Next Obligation. {(*amRefinementCompositionality*)
    intros.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
@@ -117,57 +112,57 @@ Proof.
       unfold equivalentFMs in H.
       intuition.
 
-}{(*fullCompositionality*)
+} Qed. Next Obligation. {(*fullCompositionality*)
    intros.
     split.
-    + unfold plRefinement_func. intros. exists c1. split.
-      -  unfold getFM_func. simpl.  unfold getFM_func in H0. destruct pl in H0.
-        simpl in H0. destruct p in H0. simpl in H0. rewrite f in H0.
-        rewrite fm. apply H0.
+    +  unfold plRefinement_func. intros. exists c1. split.
+      -  unfold getFM_func. simpl. unfold getFM_func in H2. 
+        simpl in H2. destruct pl in H2. simpl in H2. destruct p in H2.
+        simpl in H2. destruct fm. rewrite f in H2. apply H2.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
     + unfold wfPL_func. intros.
       unfold equivalentFMs in H.
       intuition.
 
-}{(*weakFullCompositionality*)
+} Qed. Next Obligation. 
+{(*weakFullCompositionality*)
 
-   intros. 
-    destruct H.   
+ intros.  
     unfold plRefinement_func. 
     intros. exists c1.  split.
-      +  unfold getFM_func. simpl.  unfold getFM_func in H1. destruct pl in H1.
-        simpl in H1. destruct p in H1. simpl in H1. rewrite f in H1.
-        rewrite fm. apply H1. 
+      +  unfold getFM_func. simpl.  unfold getFM_func in H2. destruct pl in H2.
+        simpl in H2. destruct p in H2. simpl in H2. rewrite f in H2.
+        rewrite fm. apply H2. 
       + unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
 
-}{(*fullCompositionality2*)
-   intros.
+} Qed. Next Obligation. 
+{(*fullCompositionality2*)
+ intros.
     split.
-    + unfold plRefinement_func. intros. exists c1. split.
-      -  unfold getFM_func. simpl.  unfold getFM_func in H0. destruct pl in H0.
-        simpl in H0. destruct p in H0. simpl in H0. rewrite f in H0.
-        rewrite fm. apply H0.
+    +  unfold plRefinement_func. intros. exists c1. split.
+      -  unfold getFM_func. simpl. unfold getFM_func in H2. 
+        simpl in H2. destruct pl in H2. simpl in H2. destruct p in H2.
+        simpl in H2. destruct fm. rewrite f in H2. apply H2.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
     + unfold wfPL_func. intros.
       unfold equivalentFMs in H.
       intuition.
 
-}{(*weakFullCompositionality2*)
-
-    intros. 
-    destruct H.   
+} Qed. Next Obligation. { (*weakFullCompositionality2*)
+ intros.  
     unfold plRefinement_func. 
     intros. exists c1.  split.
-      +  unfold getFM_func. simpl.  unfold getFM_func in H1. destruct pl in H1.
-        simpl in H1. destruct p in H1. simpl in H1. rewrite f in H1.
-        rewrite fm. apply H1. 
+      +  unfold getFM_func. simpl.  unfold getFM_func in H2. destruct pl in H2.
+        simpl in H2. destruct p in H2. simpl in H2. rewrite f in H2.
+        rewrite fm. apply H2. 
       + unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
 
-}{(*plRefAlt*)
+}  Qed. Next Obligation. 
+{(*plRefAlt*)
   split.
         + intros.  apply equalsRefinementAlt. reflexivity.
         + intros. destruct H. unfold plRefinementAlt in H. unfold plRefinementAlt_func.
@@ -178,7 +173,8 @@ Proof.
             - apply H1.
             - generalize H2, H3. apply assetRefinementTranstivity_axiom. 
 
-}{(*strongerPLref*)
+} Qed. Next Obligation.
+{(*strongerPLref*)
   intros.
     split.
     + apply equalsStrongerPL. reflexivity. 
@@ -188,7 +184,8 @@ Proof.
       - apply H1 in H0. destruct H0. apply H0.
       -  apply H1 in H0. destruct H0.  generalize H3. generalize H2. apply assetRefinementTranstivity_axiom.
 
-}{(*plRef*)
+} Qed. Next Obligation.
+{(*plRef*)
   intros.
       split.
       + apply equalsPL. reflexivity.

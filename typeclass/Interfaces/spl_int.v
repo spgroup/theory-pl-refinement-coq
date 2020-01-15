@@ -16,10 +16,12 @@ Import FeatureModelSPL.
 Import AssetMappingSPL.  
 
 
+
 Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
          {AssetM : AssetMapping Asset AssetName AM}
          {ckTrans: CKTrans F A AM CK Conf}: Type :=
 { 
+    (*====================functions=======================*)
   getFM               : PL -> F; 
   getAM               : PL -> AM;
   getCK               : PL -> CK;
@@ -31,6 +33,8 @@ Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
   subsetProducts      : PL -> set A -> Prop;
   plWeakRefinement    : PL -> PL -> Prop;
   strongerPLRefinement: PL -> PL -> Prop;
+
+  (*===========Axioms - Lemmas - Theorems====================*)
   plStrongSubset:
    forall pl1 pl2: PL,
       strongerPLRefinement pl1 pl2 

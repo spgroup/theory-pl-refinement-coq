@@ -8,13 +8,13 @@ Require Import Coq.Arith.Arith.
 Require Import Coq.Init.Specif.
 Require Export Coq.Lists.List.
 
-Instance Ins_FeatureModel: FeatureModel FM Conf :=
+Program Instance Ins_FeatureModel: FeatureModel FM Conf :=
 {
   FMRef := FMRef_Func;
   FMRefinement := FMRefinement_func;
   equivalentFMs := equivalentFMs_func;
 }.
-Proof.
+ Next Obligation.
   { (* eqFM*)
     intros.
     split.
@@ -22,6 +22,6 @@ Proof.
       + split. 
         - intros. rewrite fm0, fm2. rewrite fm0, fm2 in H. apply H.
         - intros. destruct H. rewrite fm0, fm3. rewrite fm2, fm3 in H0. apply H0.
-  } { (*refFM*)
+} Qed. Next Obligation. { (*refFM*)
       intros. rewrite fm3, fm1. rewrite fm1 in H. rewrite fm2 in H. apply H.
-} Qed.
+}  Qed.

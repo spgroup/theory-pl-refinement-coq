@@ -11,14 +11,13 @@ Import FeatureModelSPL.
 Require Export assetmapping_spl_def.
 Import AssetMappingSPL.  
 
-Instance Ins_CKTrans: CKTrans FM Asset AM CK Conf :=
+Program Instance Ins_CKTrans: CKTrans FM Asset AM CK Conf :=
 {
   CKSem         := CKSem_func;
   CKConf        := CKConf_func;
   equivalentCKs := equivalentCKs_func;
   weakerEqCK    := weakerEqCK_func;
-}.
-Proof.
+}. Next Obligation.
 { (*eqCK*)
   intros.
     split.
@@ -26,12 +25,14 @@ Proof.
     + split. 
       - intros. rewrite ck0, ck2. rewrite ck0, ck2 in H. apply H.
       - intros. destruct H. rewrite ck0, ck3. rewrite ck0, ck2 in H. apply H.
-} { (*weakerEqReflexive*)
+} 
+Qed. Next Obligation. { (*weakerEqReflexive*)
       intros. unfold weakerEqCK_func. intros. reflexivity.
-} { (*weakerEqSymmetric*)
+} Qed. Next Obligation.
+{ (*weakerEqSymmetric*)
        intros. rewrite ck2, ck1. rewrite ck1, ck2 in H.
       apply H.
-}  { (*weakerEqTransitive*)
+} Qed. Next Obligation. { (*weakerEqTransitive*)
       intros.
       rewrite ck1, ck3. rewrite ck2, ck3 in H0.
       apply H0.

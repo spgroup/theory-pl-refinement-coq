@@ -5,7 +5,6 @@ Require Export maps assets asset_mapping form name decidability feature_model fo
   Name FormulaTheory Form Decidability FeatureModel.
   Require Import Coq.Lists.ListSet.
 
-
   Inductive Transformation : Type.
 
   Definition Item : Type := Formula * Transformation.
@@ -184,55 +183,40 @@ Require Export maps assets asset_mapping form name decidability feature_model fo
 
   Lemma addItemsBefore:
     forall am amt ck its s,
-      (unique am) /\ (unique amt) ->
         forall c,
           set_In c s-> (
             (forall exp, set_In exp (exps its) -> ~(satisfies exp c) ->
               (semanticsCK ck am amt c = semanticsCK ( its ++ ck) am amt c))).
   Proof.
-        induction am1.
-      - induction am2.
-        + induction ck. 
-          { unfold not. intros. destruct H. simpl. intuition.  admit. }
-          { auto. }
-        + induction ck.
-          { auto. }
-          { auto. }
-      - induction am2.
-        + induction ck.
-          { auto. }
-          { auto. }
-        + induction ck.
-          { auto. }
-          { auto. }
+      unfold not.
+      induction its0.
+       + induction ck0.
+          * simpl. intros. reflexivity.
+          * simpl. intros. reflexivity.
+       + induction ck0.
+          * simpl. intros. specialize (IHits0 s0).
+            specialize (IHits0 c0). intuition. specialize (H2 exp0). admit.
+          *  simpl. intros. specialize (IHits0 s0). specialize (IHits0 c0). intuition.
+              specialize (H2 exp0). admit.
+Admitted.
 
-
-  Admitted.
-  
   Lemma addItemsAfter:
     forall am amt ck its s,
-      (unique am) /\ (unique amt) ->
         forall c,
           set_In c s-> (
             (forall (exp: Formula), set_In exp (exps its) -> ~(satisfies exp c) ->
               (semanticsCK ck am amt c = semanticsCK ( ck ++ its) am amt c))).
   Proof.
-   induction am1.
-      - induction am2.
-        + induction ck.
-          { unfold not. intros. destruct H. admit. }
-          { auto. }
-        + induction ck.
-          { auto. }
-          { auto. }
-      - induction am2.
-        + induction ck.
-          { auto. }
-          { auto. }
-        + induction ck.
-          { auto. }
-          { auto. }
-
+   unfold not.
+      induction its0.
+       + induction ck0.
+          * simpl. intros. reflexivity.
+          * simpl. intros. contradiction.
+       + induction ck0.
+          * simpl. intros. specialize (IHits0 s0).
+            specialize (IHits0 c0). intuition. specialize (H2 exp0). intuition. admit.
+          *  simpl. intros. specialize (IHits0 s0). specialize (IHits0 c0). intuition.
+              specialize (H2 exp0). admit.
 Admitted.
   
   

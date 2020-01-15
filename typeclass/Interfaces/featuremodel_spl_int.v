@@ -5,13 +5,22 @@ Require Export Coq.Lists.List.
 
 Class FeatureModel (F Conf: Type) : Type :=
 {
+  (*====================functions=======================*)
   FMRef        : F -> set Conf;
   FMRefinement : F -> F -> Prop;
   equivalentFMs: F -> F -> Prop;
+
+  (*===========Axioms - Lemmas - Theorems====================*)  
+  
   eqFM : 
     forall fm1: F, equivalentFMs fm1 fm1 /\
-      (forall fm1 fm2: F,equivalentFMs fm1 fm2 -> equivalentFMs fm2 fm1) /\
-         (forall fm1 fm2 fm3: F, equivalentFMs fm1 fm2 /\ equivalentFMs fm2 fm3 -> equivalentFMs fm1 fm3);
+      (forall fm1 fm2: F,equivalentFMs fm1 fm2 
+        -> equivalentFMs fm2 fm1) /\
+         (forall fm1 fm2 fm3: F, 
+            equivalentFMs fm1 fm2 /\ equivalentFMs fm2 fm3 
+              -> equivalentFMs fm1 fm3);
   refFM:
-   forall fm1 fm2 fm3: F, FMRefinement fm1 fm2 -> FMRefinement fm2 fm3 -> FMRefinement fm1 fm3
+   forall fm1 fm2 fm3: F, 
+     FMRefinement fm1 fm2 -> FMRefinement fm2 fm3 
+      -> FMRefinement fm1 fm3
 }.

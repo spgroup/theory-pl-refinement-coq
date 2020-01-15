@@ -1,1 +1,31 @@
--Q . LF
+-R . theoryPlRefinement
+./asset_mapping.v
+./assets.v
+./ck_trans.v
+./decidability.v
+./feature_model_semantics.v
+./feature_model.v
+./form.v
+./formula_theory.v
+./maps.v
+./name.v
+./spl_refinement.v
+./typeclass/Interfaces/featuremodel_spl_int.v
+./typeclass/Util/featuremodel_spl_def.v
+./typeclass/Proofs/featuremodel_spl_proofs.v
+./typeclass/Instances/featuremodel_spl_inst.v
+./typeclass/Interfaces/maps_int.v
+./typeclass/Util/maps_def.v
+./typeclass/Proofs/maps_proofs.v
+./typeclass/Instances/maps_inst.v
+./typeclass/Interfaces/assetmapping_spl_int.v
+./typeclass/Util/assetmapping_spl_def.v
+./typeclass/Instances/assetmapping_spl_inst.v
+./typeclass/Interfaces/cktrans_spl_int.v
+./typeclass/Util/cktrans_spl_def.v
+./typeclass/Proofs/cktrans_spl_proofs.v
+./typeclass/Instances/cktrans_spl_inst.v
+./typeclass/Interfaces/spl_int.v
+./typeclass/Util/spl_def.v
+./typeclass/Proofs/spl_proofs.v
+./typeclass/Instances/spl_inst.v

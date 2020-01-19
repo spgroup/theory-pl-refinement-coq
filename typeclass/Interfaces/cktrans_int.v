@@ -12,6 +12,8 @@ Require Export formulatheory_int.
 Class CKTrans (Ck FML IT T m Nm A N F:Type) {Mp: Maps A N m} {As: AssetTheory A N m} 
               {Am: AssetMapping A N m}   {Ft: FormulaTheory FML Nm F} : Type :=
 {
+  (*====================functions=======================*)
+
   exps       : Ck -> set FML;
   getExp     : IT -> FML;
   getRS      : IT -> T;
@@ -21,6 +23,8 @@ Class CKTrans (Ck FML IT T m Nm A N F:Type) {Mp: Maps A N m} {As: AssetTheory A 
   semantics_ : Ck ->  m -> set Nm -> set N;
   getNames   : F -> set FML;
   unionCK    : Ck -> Ck -> Ck;
+
+  (*===========Axioms - Lemmas - Theorems====================*)  
   similarFunctions: 
     forall (ck: Ck) (am amt: m) (c: set Nm), (unique_ am) -> semanticsCK ck am amt c 
       = img (semanticCK ck am amt c);

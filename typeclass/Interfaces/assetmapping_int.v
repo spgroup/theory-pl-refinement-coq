@@ -7,7 +7,11 @@ Require Export assettheory_int.
 
 
 Class AssetMapping (A N m: Type) {Mp: Maps A N m} {As: AssetTheory A N m}: Type := {
+  (*====================functions=======================*)
+  
   aMR : m -> m -> Prop;
+
+  (*===========Axioms - Lemmas - Theorems====================*)  
   assetMappingRefinement:
     forall x y z: m, aMR x x /\ aMR x y -> aMR y z ->  aMR x z;
   amRefCompositional:

@@ -19,21 +19,34 @@ Import AssetTheory.
 Import Maps.
 
 
- Instance AssetTheory_Int : AssetTheory AssetName Asset map_ := 
+ Program Instance AssetTheory_Int : AssetTheory AssetName Asset map_ := 
 {
   wfProduct:= wfProduct_ind;
   assetRef:= assetRef_func;
 
-}. Proof.
+}. Next Obligation.
 { (*ANdec_eq*)
   apply ANdec_eq_axiom.
 
-} { (*Asset_dec*)
+} Qed.
+  Next Obligation.
+ { (*Asset_dec*)
   apply Asset_dec_axiom.
-} { (*assetRefinement*)
-  apply assetRefinement_axiom.
-} { (*asRefCompositional_axiom*)
-  admit.
-}{ (*assetTest*)
-  admit.
-} Admitted.
+} Qed.
+  Next Obligation.
+{ (*assetRefinement*)
+ assert (H3: assetRef_func x x /\ assetRef_func x y).
+ split.
+ + apply H.
+ + apply H1.
+ + generalize H3, H0.
+   apply assetRefinement_axiom.
+} Qed.
+  Next Obligation. 
+{ (*asRefCompositional_axiom*)
+    assert (H3: assetRef_func S1 S2 /\ wfProduct_ind (union_t_func S1 aSet)).
+  split.
+  + apply H.
+  + apply H0.
+  + apply asRefCompositional_axiom. apply H3.
+} Qed. 

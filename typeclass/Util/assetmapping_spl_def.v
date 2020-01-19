@@ -28,6 +28,8 @@ Import Maps.
 
   Axiom as_dec_axiom : forall x y:Asset, {x = y} + {x <> y}.
   Axiom an_dec_axiom : forall x y:AssetName, {x = y} + {x <> y}.
+  Definition my_set_union_func (S1 S2: set Asset): set Asset :=
+   set_union as_dec_axiom S1 S2.
 
 
   Axiom asRefCompositional_axiom :

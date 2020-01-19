@@ -18,30 +18,37 @@ Import FeatureModelSemantics.
 
 
 
-Instance AssetMapping_Int : AssetMapping AssetName Asset map_ := 
+Program Instance AssetMapping_Int : AssetMapping AssetName Asset map_ := 
 {
    aMR := aMR_func;
 
-}. Proof.
+}. Next Obligation.
 { (*assetMappingRefinement*)
-  apply assetMappingRefinement_axiom.
+  (* generalize H, H1, H0. apply assetMappingRefinement_axiom. *)
+  assert (H3: aMR_func x x /\ aMR_func x y).
+ split.
+ + apply H.
+ + apply H1.
+ + generalize H3, H0. apply assetMappingRefinement_axiom.
 
-}{ (*amRefCompositional*)
+} Qed.
+  Next Obligation.
+{ (*amRefCompositional*)
   induction am2. 
   - induction am1.
     + induction aSet.
-      { intros. destruct H0. intuition. }
-      { intros. destruct H0. intuition. }
+      { intros. destruct H2. intuition. }
+      { intros. destruct H2. intuition. }
     + induction aSet.
-      { intros. destruct H0. intuition. apply IHam1. admit. admit. admit. }
-      { intros. destruct H0. intuition. admit. }
+      { intros. destruct H2. intuition. }
+      { intros. destruct H2. intuition. }
   - induction am1.
     + induction aSet.
       { intros.
-         destruct H1. intuition. admit. }
-      { intuition. admit. }
+         destruct H2. intuition. }
+      { intuition. }
     + induction aSet.
-      { intuition. admit. }
-      { intuition. admit. }
+      { intuition. }
+      { intuition. }
 
-} Admitted.
+} Qed.

@@ -17,6 +17,7 @@ Program Instance Ins_AssetMapping: AssetMapping Asset AssetName AM :=
   assetRef      := assetRef_func;
   wfProduct     := wfProduct_ind;
   aMR           := aMR_func;
+  my_set_union  := my_set_union_func;
 }.
 Next Obligation.
   {(*assetRefinementReflexivity*)
@@ -27,13 +28,14 @@ Next Obligation.
   generalize H H0. apply assetRefinementTranstivity_axiom.
 } Qed.
 Next Obligation.
-{ (*as_dec*)
-   apply as_dec_axiom.
-} Qed.
-Next Obligation.
  { (*asRefCompositional*)
-  admit. (*apply asRefCompositional_axiom.*)
-} Admitted.
+assert (H3: assetRef_func S1 S2 /\ wfProduct_ind (my_set_union_func S1 aSet)).
+ split.
+ + apply H.
+ + apply H0.
+ + generalize H3.
+  apply asRefCompositional_axiom.
+} Qed.
 Next Obligation. { (*assetMappingRefinement*)
   generalize H0. apply assetMappingRefinement_axiom. split.
     + apply H. 

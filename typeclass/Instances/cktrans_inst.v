@@ -29,7 +29,7 @@ Import FeatureModelSemantics.
 Import CKTrans.
 
 
-Instance CKTrans_Inst : CKTrans CK Formula Item Transformation map_ Name AssetName Asset FM :=
+Program Instance CKTrans_Inst : CKTrans CK Formula Item Transformation map_ Name AssetName Asset FM :=
 {
   exps       := exps_func;
   getExp     := getExp_func;
@@ -41,20 +41,70 @@ Instance CKTrans_Inst : CKTrans CK Formula Item Transformation map_ Name AssetNa
   getNames   := getNames_func;
   unionCK    := unionCK_func;
 
-}. Proof.
+}. Next Obligation.
 { (*similarFunctions*)
+    induction ck.
+      - induction amt.
+        + induction am. 
+          * intros. simpl. reflexivity.
+          * intros. simpl. reflexivity.
+        + induction amt.
+          * intros. simpl. reflexivity.
+          * intros. simpl. reflexivity.
+      - induction amt.
+        + induction am. 
+          * intros. simpl. intuition. admit.
+          * intros. simpl. intuition. admit.
+        + induction amt.
+          * intros. simpl. intuition. admit.
+          * intros. simpl. intuition. admit.
+
+} Admitted.
+ Next Obligation.
+{ (*compAmRefEmptyset*)
+  induction am1.
+      - induction am2.
+        + induction ck.
+          { apply H2. }
+          { intros. intuition. }
+        + induction ck.
+          { intros. intuition. }
+          { intuition. }
+      - induction am2.
+        + induction ck.
+          { intuition. }
+          { intuition. }
+        + induction ck.
+          { intuition. }
+          { intuition. }
+
+} Qed. 
+  Next Obligation.
+{ (*compAmRef*)
+     induction am1.
+      - induction am2.
+        + induction ck.
+          { intuition. }
+          { intuition. }
+        + induction ck.
+          { intuition. }
+          { intuition. }
+      - induction am2.
+        + induction ck.
+          { intuition. }
+          { intuition. }
+        + induction ck.
+          { intuition. }
+          { intuition. }
+
+} Qed.
+  Next Obligation.
+{ (*addItemsBefore*)
   admit.
 
-} { (*compAmRefEmptyset*)
-  admit.
-
-}  { (*compAmRef*)
-  admit.
-
-} { (*addItemsBefore*)
-  admit.
-
-} { (*addItemsAfter*)
+} Admitted.
+  Next Obligation.
+{ (*addItemsAfter*)
   admit.
 
 } Admitted.

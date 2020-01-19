@@ -54,7 +54,13 @@ Fixpoint wtFormulaeAux(fm : FM) (fs : formulae): Prop :=
      | nil => True
      | a1 :: x1 => (wt_func (fst fm) a1) /\ (wtFormulaeAux fm x1)
    end.
- 
+
+  Definition my_set_add_func (n: Name) (c: Configuration): Configuration :=
+    set_add name_dec_axiom n c.
+
+   Definition my_set_remove_func (n: Name) (c: Configuration): Configuration :=
+    set_remove name_dec_axiom n c.
+
 (*indicates whether a feature model has all of its formulae well-typed*)
 Fixpoint wtFormulae_func (fm : FM) : Prop := 
   wtFormulaeAux fm (snd fm).

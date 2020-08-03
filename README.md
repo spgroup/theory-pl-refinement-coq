@@ -14,3 +14,10 @@ The formalization was split into modules and these were included in different fi
 - **maps.v**: For _AM_ we need a _Map_ structure that allows the mapping of a feature name to a real artifact, so we chose to formalize a theory that deals with this structure that is contained in this file.
 - **spl_refinement.v**: specify the general theory of LPS refinement.
 
+
+- **Create an executable file configure.sh**:
+coq_makefile -f _CoqProject -o Makefile
+- **To compile the project, run**:
+make
+
+

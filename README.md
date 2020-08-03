@@ -15,9 +15,9 @@ The formalization was split into modules and these were included in different fi
 - **spl_refinement.v**: specify the general theory of LPS refinement.
 
 
-- **Create an executable file configure.sh**:
+**Create an executable file configure.sh**:
 coq_makefile -f _CoqProject -o Makefile
-- **To compile the project, run**:
+**To compile the project, run**:
 make
 
 

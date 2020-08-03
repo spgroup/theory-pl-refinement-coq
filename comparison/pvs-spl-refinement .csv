@@ -1,0 +1,34 @@
+,Transforming goals and hypotheses,,,,,,,,,Managing the local context,,,,,Breaking apart goals and hypotheses,,,,Powerful Automatic Commands,,,
+Provas,bddsimpl,expand*,expand,decompose-equality,inst,replace,instantiate,use,typepred,skolem,lemma,hide-all-but,hide,copy, induct,skosimp,case,flatten, assert,grind,propax,Total por provas
+formNames,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,6,0,7
+formNames2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,6,0,7
+satisfies1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,6,0,7
+"satisfies2
+",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,6,0,7
+wtFormSameFeatures,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,7,0,9
+wtFormRefinement,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,7,0,10
+notMember,0,1,0,0,0,0,1,0,0,2,0,0,0,0,0,0,0,2,1,0,0,7
+mappingUnique,0,0,4,0,0,0,2,0,1,3,0,0,0,0,0,0,0,1,1,0,1,13
+inDom,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,1,5
+amRefCompositional,7,3,14,4,0,18,24,3,2,9,16,5,4,1,0,0,5,13,18,1,2,149
+eqFM,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+refFM,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+eqCK,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+weakerEqReflexive,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+weakerEqSymmetric,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+weakerEqTransitive,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+plRef,1,0,8,0,0,0,6,2,0,6,0,0,0,1,0,0,0,7,5,0,1,37
+plRefAlt,1,2,2,0,0,0,6,2,0,6,0,0,0,0,0,0,0,7,4,0,0,30
+strongerPLref,1,4,0,0,0,0,4,2,0,4,0,0,0,0,0,0,0,7,5,0,0,27
+plStrongSubset,0,1,0,0,0,0,1,0,0,2,0,0,0,0,0,0,0,2,1,0,0,7
+weakFMcompositionality,0,0,6,0,0,0,3,1,0,2,0,0,0,0,0,0,0,3,2,0,1,18
+fmEquivalenceCompositionality,1,1,2,0,0,1,2,1,1,2,0,0,0,0,0,0,0,3,2,0,0,16
+ckEquivalenceCompositionality,1,1,2,0,0,1,2,1,1,2,0,0,0,0,0,0,0,3,1,0,0,15
+weakerCKcompositionality,0,0,3,0,0,0,7,1,0,2,1,0,0,0,0,0,0,3,5,0,0,22
+fullCompositionality,0,0,2,0,0,0,5,1,0,1,3,0,0,1,0,0,0,5,8,0,0,26
+weakFullCompositionality,0,0,2,0,0,0,5,1,0,1,3,0,0,1,0,0,0,4,8,0,0,25
+fullCompositionality2,0,1,0,0,0,0,9,0,0,1,5,0,0,1,0,0,0,4,7,0,0,28
+amRefinementCompositionality,1,1,0,0,0,0,6,0,1,3,1,0,0,0,0,0,0,4,6,0,0,23
+weakFullCompositionality2,0,1,0,0,0,0,5,0,0,1,4,0,0,1,0,0,0,4,7,0,0,23
+Total command,13,16,46,4,0,20,89,15,6,49,33,5,4,6,5,1,5,74,81,39,6,517
+Total category,209,,,,,,,,,97,,,,,85,,,,126,,,

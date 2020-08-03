@@ -261,7 +261,17 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
       wfProduct (CKSem (getCK pl) (getAM pl) c)).
 
   (* Definition <Product line> *) 
-  Definition PL : Type := ArbitrarySPL.
+  Record PL: Type := {
+        pls:> ArbitrarySPL;
+        wfpl:> Prop }.
+
+  Variable a : ArbitrarySPL.
+
+
+  Definition ase (pl: PL): PL := {| pls:= a; wfpl:= wfPL a |}. 
+
+  (*Definition PL : Type := ArbitrarySPL.*)
+
   Variable pl pl1 pl2: PL.
 
 (* ============= PL REFINEMENT DEFINITION AND PROPERTIES =================*)
@@ -270,7 +280,7 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
   Inductive sig (A : Type) (P : A -> Prop) : Type :=
     exist : forall x : A, P x -> sig P.
     
-  Notation "{ x | P }" := (sig (fun x => P)) : type_scope.
+  Notation "{ x | P }" := (sig (fun x => P)) : type_scope. 
   Notation "{ x : A | P }" :=
     (sig (fun x:A => P)) : type_scope.
 
@@ -346,14 +356,15 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
   Theorem weakFMcompositionality:
     forall (pl: PL) (fm: FM),      
         (FMRefinement (getFM pl) fm) /\ wfPL ((fm ,(getAM pl)), (getCK pl)) ->
-          (plRefinement pl ((fm ,(getAM pl)), (getCK pl))).
+          (plRefinement pl {|pls := ((fm ,(getAM pl)), (getCK pl)); wfpl := wfPL ((fm ,(getAM pl)), (getCK pl))|}).
     Proof.
     intros. 
     destruct H.   
     unfold plRefinement. 
     intros. exists c4.  split.
       +  unfold getFM. simpl.  unfold getFM in H1. destruct pl0 in H1.
-        simpl in H1. destruct p0 in H1. simpl in H1. rewrite f in H1.
+        simpl in H1. destruct pls0 in H1. simpl in H1. destruct p0 in H1.
+        simpl in H1. rewrite f in H1.
         rewrite fm0. apply H1. 
       + unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -364,14 +375,14 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
    Theorem fmEquivalenceCompositionality:
       forall (pl: PL) (fm: FM),
         equivalentFMs (getFM pl) fm ->
-          (plRefinement pl ((fm ,(getAM pl)), (getCK pl))) /\
-            wfPL ((fm ,(getAM pl)), (getCK pl)).
+          (plRefinement pl {| pls := ((fm ,(getAM pl)), (getCK pl)); wfpl := wfPL ((fm ,(getAM pl)), (getCK pl))|})
+            /\ wfPL ((fm ,(getAM pl)), (getCK pl)).
     Proof.
     intros.
     split.
     + unfold plRefinement. intros. exists c4. split.
       -  unfold getFM. simpl.  unfold getFM in H0. destruct pl0 in H0.
-        simpl in H0. destruct p0 in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p0. rewrite f in H0.
         rewrite fm0. apply H0.
       - unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -385,14 +396,14 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
   Theorem ckEquivalenceCompositionality:
     forall (pl: PL) (ck: CK),
       equivalentCKs (getCK pl) ck ->
-        (plRefinement pl ((fm ,(getAM pl)), (getCK pl))) /\
-           wfPL ((fm ,(getAM pl)), (getCK pl)).
+        (plRefinement pl {| pls:= ((fm ,(getAM pl)), (getCK pl)); wfpl := wfPL ((fm ,(getAM pl)), (getCK pl))|})
+         /\ wfPL ((fm ,(getAM pl)), (getCK pl)).
     Proof.
     intros.
     split.
     + unfold plRefinement. intros. exists c4. split.
       -  unfold getFM. simpl.  unfold getFM in H0. destruct pl0 in H0.
-        simpl in H0. destruct p0 in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p0. simpl in H0. rewrite f in H0.
         rewrite fm. apply H0.
       - unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -404,14 +415,14 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
   Theorem weakerCKcompositionality:
     forall (pl: PL) (ck: CK),
       weakerEqCK (getFM pl) (getCK pl) (ck) ->
-        plRefinement pl ((fm ,(getAM pl)), (getCK pl)) /\
-           wfPL ((fm ,(getAM pl)), (getCK pl)).
+        plRefinement pl {|pls := ((fm ,(getAM pl)), (getCK pl)); wfpl := wfPL ((fm ,(getAM pl)), (getCK pl))|}
+         /\ wfPL ((fm ,(getAM pl)), (getCK pl)).
     Proof.
     intros.
     split.
     + unfold plRefinement. intros. exists c4. split.
       -  unfold getFM. simpl.  unfold getFM in H0. destruct pl0 in H0.
-        simpl in H0. destruct p0 in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p0. rewrite f in H0.
         rewrite fm. apply H0.
       - unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -425,14 +436,16 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
   Theorem amRefinementCompositionality:
     forall (pl: PL) (am: AM),
       aMR (getAM pl) am ->
-        plRefinement pl ((fm ,(getAM pl)), (getCK pl)) /\
+        plRefinement pl {| pls := ((fm ,(getAM pl)), (getCK pl)); wfpl:= wfPL ((fm ,(getAM pl)), (getCK pl))|}
+         /\
            wfPL ((fm ,(getAM pl)), (getCK pl)).
     Proof.
     intros.
     split.
     + unfold plRefinement. intros. exists c4. split.
       -  unfold getFM. simpl.  unfold getFM in H0. destruct pl0 in H0.
-        simpl in H0. destruct p0 in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p0 in H0. simpl in H0.
+        rewrite f in H0.
         rewrite fm. apply H0.
       - unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -449,14 +462,16 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
       equivalentFMs (getFM pl) fm /\
         equivalentCKs (getCK pl) ck /\
           aMR (getAM pl) am ->
-            plRefinement pl ((fm ,(getAM pl)), (getCK pl)) /\
-              wfPL ((fm ,(getAM pl)), (getCK pl)).
+            plRefinement pl {| pls := ((fm ,(getAM pl)), (getCK pl)); 
+              wfpl:= wfPL ((fm ,(getAM pl)), (getCK pl))|}  /\
+                wfPL ((fm ,(getAM pl)), (getCK pl)).
     Proof.
     intros.
     split.
     + unfold plRefinement. intros. exists c4. split.
       -  unfold getFM. simpl.  unfold getFM in H0. destruct pl0 in H0.
-        simpl in H0. destruct p0 in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p0. simpl in H0.
+        rewrite f in H0.
         rewrite fm0. apply H0.
       - unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -474,14 +489,16 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
       (FMRefinement (getFM pl) fm) /\
         equivalentCKs (getCK pl) ck /\
            wfPL ((fm ,(getAM pl)), (getCK pl)) ->
-             plRefinement pl ((fm ,(getAM pl)), (getCK pl)).
+             plRefinement pl {| pls := ((fm ,(getAM pl)), (getCK pl));
+               wfpl := wfPL ((fm ,(getAM pl)), (getCK pl)) |}.
     Proof.
     intros. 
     destruct H.   
     unfold plRefinement. 
     intros. exists c4.  split.
       +  unfold getFM. simpl.  unfold getFM in H1. destruct pl0 in H1.
-        simpl in H1. destruct p0 in H1. simpl in H1. rewrite f in H1.
+        simpl in H1. destruct pls0 in H1. simpl in H1. destruct p0. simpl in H1.
+        rewrite f in H1.
         rewrite fm0. apply H1. 
       + unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -495,14 +512,16 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
       equivalentFMs (getFM pl) fm /\
         weakerEqCK (getFM pl) (getCK pl) (ck) /\ 
           aMR (getAM pl) am ->
-            plRefinement pl ((fm ,(getAM pl)), (getCK pl)) /\
+            plRefinement pl  {| pls := ((fm ,(getAM pl)), (getCK pl));
+              wfpl:= wfPL ((fm ,(getAM pl)), (getCK pl))|} /\
               wfPL ((fm ,(getAM pl)), (getCK pl)).
     Proof.
     intros.
     split.
     + unfold plRefinement. intros. exists c4. split.
       -  unfold getFM. simpl.  unfold getFM in H0. destruct pl0 in H0.
-        simpl in H0. destruct p0 in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p0. 
+        simpl in H0. rewrite f in H0.
         rewrite fm0. apply H0.
       - unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.
@@ -518,14 +537,16 @@ Axiom conf_dec : forall x y:Conf, {x = y} + {x <> y}.
         forall (pl: PL) (fm: FM) (am: AM) (ck: CK),       
           (FMRefinement (getFM pl) fm) /\
             aMR (getAM pl) am /\ wfPL ((fm ,(getAM pl)), (getCK pl)) ->
-              plRefinement pl ((fm ,(getAM pl)), (getCK pl)).
+              plRefinement pl {| pls := ((fm ,(getAM pl)), (getCK pl)); 
+                wfpl := wfPL ((fm ,(getAM pl)), (getCK pl))|}.
     Proof.
     intros. 
     destruct H.   
     unfold plRefinement. 
     intros. exists c4.  split.
       +  unfold getFM. simpl.  unfold getFM in H1. destruct pl0 in H1.
-        simpl in H1. destruct p0 in H1. simpl in H1. rewrite f in H1.
+        simpl in H1.  destruct pls0 in H1. simpl in H1. destruct p0. simpl in H1.
+        rewrite f in H1.
         rewrite fm0. apply H1.  
       + unfold getCK. unfold getAM. simpl.
         apply assetRefinementReflexivity.

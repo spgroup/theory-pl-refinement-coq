@@ -217,23 +217,6 @@ Module Maps.
         apply Hunq.    
   Qed.
   
-  (* O mapeamento após a adição deve continuar sendo único*)
-  Lemma unique_add:
-    forall (s: map_) (p: pair_),
-      unique s -> unique (add_map s p).
-  Proof.
-  induction p.
-  induction s0.
-  - simpl. unfold unique.
-    intros HMpConj1 l0 r3 r4 HMpConj2. 
-    rewrite r3, r4. reflexivity.
-  - intros HUnqList. apply unique_red in HUnqList.
-    apply IHs0 in HUnqList. (*apply unique_red_add.
-    split. 
-      + left. destruct a0. rewrite s1, t, a, b. reflexivity.    
-      + apply HUnqList.*)
-  Admitted.
-
 (*=============================remove map========================*) 
 
   (* função para remover um pair_ do map_*)
@@ -245,35 +228,6 @@ Module Maps.
                 else remove_map xs p
     end.
 
-  Lemma unique_red_rmv:
-    forall (s: map_) (p1 p2: pair_), 
-      ((p1 = p2) \/ (p1 <> p2)) /\ (unique (remove_map s p2))
-      ->
-  (unique (remove_map (p1 :: s) p2)).
-  Proof.
-    induction p1.
-    induction p2.
-    induction s0. 
-    - intros. admit.
-    - intros Helim. destruct Helim. intuition.
-  Admitted.
-
-  (* O mapeamento após a remoção deve continuar sendo único*)
-  Lemma unique_rmv:
-    forall (s: map_) (p: pair_),
-      unique s -> unique (remove_map s p).
-  Proof.
-  induction p.
-  induction s0.
-  - simpl. unfold unique. intros H1 l0 r0 r3 H2.
-   specialize (H1 l r1 r2). 
-    rewrite r0, r3. reflexivity.
-  - intro HUnq. apply unique_red in HUnq. 
-    apply IHs0 in HUnq. apply unique_red_rmv.
-    split. destruct a0. 
-      + left. rewrite s1, t, a, b. reflexivity.    
-      + apply HUnq.
-  Qed.
 
 (*=======================dom img==========================*)
 

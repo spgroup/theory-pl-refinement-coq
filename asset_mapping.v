@@ -4,7 +4,7 @@ Require Export maps assets.
   Import Maps Assets.
   Require Import Coq.Lists.ListSet.
 
-  (** Um AM se trata de um map_*)
+(*Definition <Asset Mapping>*)
   Definition AM := map_.
 
   Variable am am1 am2: AM.
@@ -19,18 +19,32 @@ Require Export maps assets.
 
 
   (* Asset mapping refinement *)
-  (** Para os mapeamentos de ativos A e A ', o último refina 
-     o primeiro, denotado por A ⊑ A', sempre que:
-     dom (A) = dom (A ') ∧ ∀ n ∈ dom (A) · A <n> ⊑ A' < n> *)
-  Definition aMR (am1 am2: AM) : Prop := (dom am1 = dom am2) /\
-    forall (an : AssetName), set_In an (dom am1) -> 
-      exists (a1 a2: Asset), (isMappable am1 an a1) 
-        /\ (isMappable am2 an a2)
-          /\ (assetRef (set_add Asset_dec a1 nil) (set_add Asset_dec a2 nil)).
+(*Um refinamento de AM mapeia exatamente os mesmos nomes, 
+  não necessariamente para os mesmos ativos, mas para ativos compatíveis
+  de acordo com a noção de refinamento do conjunto de ativos *)
+  Definition aMR am1 am2: Prop := 
+  (dom am1 = dom am2) /\
+    forall an, set_In an (dom am1) -> 
+      exists a1 a2, (isMappable am1 an a1)  /\
+   (isMappable am2 an a2)  /\ (|- (a1::nil) (a2::nil)).
+
+  Notation "|>" := aMR (at level 70).
 
   (*Axiom <Asset refinement is pre-order>*)
-  Axiom assetMappingRefinement:
-    forall x y z: AM, aMR x x /\ aMR x y -> aMR y z ->  aMR x z.
+  Theorem assetMappingRefinement:
+    forall x y z: AM, (|> x x) /\ (|> x y) -> (|> y z) -> (|> x z).
+    Proof.
+    unfold aMR. intuition. rewrite <- H. apply H1.
+    intuition. exists a1, a2. specialize (H5 an0).  specialize (H3 an0).
+     specialize (H4 an0). intuition.
+     repeat destruct H4. destruct H5.
+     destruct x0, a1. 
+     + apply H4.
+     + rewrite H1 in H2. apply H3 in H2. repeat destruct H2. destruct H5.
+     destruct x1, a2. apply H5.
+     + repeat destruct H4. destruct H5.
+     destruct x0, a1, x1, a2. apply H7.
+  Qed.  
  
   (*Asset mapping domain membership*)
   Lemma inDom :
@@ -49,7 +63,7 @@ Require Export maps assets.
         + intuition.
     Qed.
   
-  (*Asset mapping domain membership*)
+  (*Asset mapping im membership*)
   Lemma inImg :
     forall am (an: AssetName) (a: Asset), 
       isMappable am an a -> set_In a (img am).
@@ -66,7 +80,7 @@ Require Export maps assets.
         + intuition.
     Qed.
 
-  Lemma amRefCompositional:
+Lemma amRefCompositional:
   forall am1 am2, aMR am1 am2 ->
     (unique am1) /\ (unique am2) ->
       forall anSet,

@@ -1,15 +1,14 @@
--R . theoryPlRefinement
-./asset_mapping.v
-./assets.v
-./ck_trans.v
-./decidability.v
-./feature_model_semantics.v
-./feature_model.v
-./form.v
-./formula_theory.v
-./maps.v
+-R . theory
 ./name.v
-./spl_refinement.v
+./form.v
+./feature_model.v
+./decidability.v
+./formula_theory.v
+./feature_model_semantics.v
+./maps.v
+./assets.v
+./asset_mapping.v
+./ck_trans.v
 ./typeclass/Interfaces/featuremodel_spl_int.v
 ./typeclass/Util/featuremodel_spl_def.v
 ./typeclass/Proofs/featuremodel_spl_proofs.v
@@ -45,13 +44,14 @@
 ./typeclass/Interfaces/cktrans_int.v
 ./typeclass/Util/cktrans_def.v
 ./typeclass/Instances/cktrans_inst.v
-
-
-
-
-
-
-
+./typeclass/Interfaces/featuremodelrefinement_int.v
+./typeclass/Util/featuremodelrefinement_def.v
+./typeclass/Instances/featuremodelrefinement_inst.v
+./typeclass/Interfaces/ckcomp_int.v
+./typeclass/Util/ckcomp_def.v
+./typeclass/Instances/ckcomp_inst.v
+./feature_model_refinement.v
+./spl_refinement.v
 
 
 

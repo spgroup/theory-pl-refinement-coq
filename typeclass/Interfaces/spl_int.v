@@ -16,8 +16,7 @@ Import FeatureModelSPL.
 Import AssetMappingSPL.  
 
 
-
-Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
+Class SPL (A Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
          {AssetM : AssetMapping Asset AssetName AM}
          {ckTrans: CKTrans F A AM CK Conf}: Type :=
 { 
@@ -25,7 +24,10 @@ Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
   getFM               : PL -> F; 
   getAM               : PL -> AM;
   getCK               : PL -> CK;
+  getCk               : CK -> CK;
   genPL               : F -> PL -> PL; 
+  genPLCK             : CK -> PL -> PL; 
+  gerPL               : F -> AM -> CK -> PL;
   wfPL                : PL -> Prop;
   plRefinement        : PL -> PL -> Prop;
   products            : PL -> set A;
@@ -35,10 +37,6 @@ Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
   strongerPLRefinement: PL -> PL -> Prop;
 
   (*===========Axioms - Lemmas - Theorems====================*)
-  plStrongSubset:
-   forall pl1 pl2: PL,
-      strongerPLRefinement pl1 pl2 
-        -> (forall c: Conf, set_In c (FMRef (getFM pl1)) -> set_In c (FMRef (getFM pl2)));
   fmEquivalenceCompositionality:
      forall (pl: PL) (fm: F),
        equivalentFMs (getFM pl) fm ->
@@ -51,7 +49,7 @@ Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
   ckEquivalenceCompositionality:
     forall (pl: PL) (fm: F) (ck: CK),
       equivalentCKs (getCK pl) ck ->
-        (plRefinement pl (genPL fm pl)) /\
+         (plRefinement pl (genPL fm pl))/\
            wfPL (genPL fm pl);
   weakerCKcompositionality:
     forall (pl: PL) (fm: F) (ck: CK),
@@ -99,5 +97,9 @@ Class SPL (A N M Conf F AM CK PL: Type) {FM: FeatureModel F Conf}
   plRef:
       forall (pl1: PL), plRefinement pl1 pl1 /\
         (forall (pl1 pl2 pl3: PL), plRefinement pl1 pl2 /\
-          plRefinement pl2 pl3 -> plRefinement pl1 pl3)
+          plRefinement pl2 pl3 -> plRefinement pl1 pl3);
+  plStrongSubset:
+   forall pl1 pl2: PL,
+      strongerPLRefinement pl1 pl2 
+        -> (forall c: Conf, set_In c (FMRef (getFM pl1)) -> set_In c (FMRef (getFM pl2)))
 }.

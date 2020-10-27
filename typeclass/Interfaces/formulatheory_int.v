@@ -10,7 +10,7 @@ Class FormulaTheory (FL N F: Type) : Type :=
   names        : FL -> set N;
   wfTree       : F -> Prop;
   names_       : F -> set N;
-  wt           : set N -> FL -> Prop;
+  wt           : F -> FL -> Prop;
   wtFormulae   : F -> Prop;
   satisfies    : FL -> set N -> Prop;
   my_set_add   : N -> set N -> set N;
@@ -22,11 +22,11 @@ Class FormulaTheory (FL N F: Type) : Type :=
     forall x y:N, {x = y} + {x <> y};
   formNames: 
     forall (fm : F) (f : FL),  
-      (wt (names_ fm) f) -> ( forall (n : N),
+      (wt fm f) -> ( forall (n : N),
         set_In n (names f) -> set_In n (names_ fm));
   formNames2 : 
     forall (fm : F) (f : FL) (n: N),
-      (wt (names_ fm) f) /\ (~(set_In n (names_ fm))) 
+      (wt fm f) /\ (~(set_In n (names_ fm))) 
         -> (~(set_In n (names f)));
   satisfies1 : 
     forall (f: FL) (c : set N) (n : N),
@@ -38,6 +38,6 @@ Class FormulaTheory (FL N F: Type) : Type :=
         satisfies f (my_set_remove n c);
   wtFormSameFeature :
     forall (abs : F) (con : F), (names_ abs = names_ con
-      /\ (wfTree abs) /\ (wfTree con) -> forall (f : FL), (wt (names_ abs) f)
-        ->  (wt (names_ con) f))
+      /\ (wfTree abs) /\ (wfTree con) -> forall (f : FL), (wt abs f)
+        ->  (wt con f))
 }.

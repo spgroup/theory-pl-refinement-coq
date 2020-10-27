@@ -31,12 +31,19 @@ Import FeatureModelSPL.
 Import AssetMappingSPL.
 Import SPL. 
 
-Program Instance Ins_SPL: SPL Asset AssetName AM Conf FM AM CK PL:=
+Program Instance Ins_SPL {FMs: FeatureModel FM Conf}
+         {AssetM : AssetMapping Asset AssetName AM}
+         {ckTrans: CKTrans FM Asset AM CK Conf}
+         {spl: SPL Asset Conf FM AM CK ArbitrarySPL} :
+           SPL Asset Conf FM AM CK PL :=
 {
   getFM:= getFM_func;
   getAM:= getAM_func;
   getCK:= getCK_func;
-  genPL:= genPL_func; 
+  getCk:= getCk_func;
+  genPL:= genPL_func;
+  genPLCK := genPLCK_func;
+  gerPL:= gerPL_func; 
   wfPL := wfPL_func;
   plRefinement:= plRefinement_func;
   products:= products_func;
@@ -46,44 +53,37 @@ Program Instance Ins_SPL: SPL Asset AssetName AM Conf FM AM CK PL:=
   strongerPLRefinement:= strongerPLrefinement_func;
 
 }.
-Next Obligation.
-{ (*plStrongS ubset*)
-  intros.
-    destruct pl1. destruct pl2.  unfold strongerPLrefinement_func in H.
-    specialize (H c). destruct c1, c0.  apply H in H0.
-    destruct  H0. apply H0.
-} Qed. Next Obligation. {(*fmEquivalenceCompositionality*)
+ Next Obligation. {(*fmEquivalenceCompositionality*)
   intros.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
       -  unfold getFM_func. simpl.  unfold getFM_func in H0. destruct pl in H0.
-        simpl in H0. destruct p in H0. simpl in H0. rewrite f in H0.
-        rewrite fm. apply H0.
+         simpl in H0. destruct pls0 in H0. simpl in H0. destruct p. simpl in H0. 
+         rewrite f in H0. rewrite fm. apply H0.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
     + unfold wfPL_func. intros.
-      unfold equivalentFMs in H.
-       intuition.
+      unfold equivalentFMs in H. intuition.
 } Qed. Next Obligation. {(*weakFMcompositionality*)
   intros.  
     unfold plRefinement_func. 
     intros. exists c1.  split.
       +  unfold getFM_func. simpl.  unfold getFM_func in H1. destruct pl in H1.
-        simpl in H1. destruct p in H1. simpl in H1. rewrite f in H1.
+        simpl in H1. destruct pls0 in H1. simpl in H1. destruct p. simpl in H1.  rewrite f in H1.
         rewrite fm. apply H1. 
       + unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
 
-} Qed. Next Obligation. {(*ckEquivalenceCompositionality*)
+} Qed. Next Obligation. {(*ckEquivalenceCompositionality*) 
   intros.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
       -  unfold getFM_func. simpl.  unfold getFM_func in H0. destruct pl in H0.
-        simpl in H0. destruct p in H0. simpl in H0. rewrite f in H0.
-        rewrite fm. apply H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p. simpl in H0.
+        destruct fm, f. apply H0.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
-    + unfold wfPL_func. intros.
+     + unfold wfPL_func. intros.
       unfold equivalentFMs in H.
       intuition.
 
@@ -92,7 +92,7 @@ Next Obligation.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
       -  unfold getFM_func. simpl.  unfold getFM_func in H0. destruct pl in H0.
-        simpl in H0. destruct p in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p. simpl in H0.  rewrite f in H0.
         rewrite fm. apply H0.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
@@ -104,7 +104,7 @@ Next Obligation.
     split.
     + unfold plRefinement_func. intros. exists c1. split.
       -  unfold getFM_func. simpl.  unfold getFM_func in H0. destruct pl in H0.
-        simpl in H0. destruct p in H0. simpl in H0. rewrite f in H0.
+        simpl in H0. destruct pls0 in H0. simpl in H0. destruct p. simpl in H0.  rewrite f in H0.
         rewrite fm. apply H0.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
@@ -117,8 +117,9 @@ Next Obligation.
     split.
     +  unfold plRefinement_func. intros. exists c1. split.
       -  unfold getFM_func. simpl. unfold getFM_func in H2. 
-        simpl in H2. destruct pl in H2. simpl in H2. destruct p in H2.
-        simpl in H2. destruct fm. rewrite f in H2. apply H2.
+        simpl in H2. destruct pl in H2. simpl in H2. 
+        destruct pls0 in H2. simpl in H2. destruct p. simpl in H2. 
+        destruct fm. rewrite f in H2. apply H2.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
     + unfold wfPL_func. intros.
@@ -132,7 +133,8 @@ Next Obligation.
     unfold plRefinement_func. 
     intros. exists c1.  split.
       +  unfold getFM_func. simpl.  unfold getFM_func in H2. destruct pl in H2.
-        simpl in H2. destruct p in H2. simpl in H2. rewrite f in H2.
+        simpl in H2. destruct pls0 in H2. simpl in H2. destruct p. 
+        simpl in H2.  rewrite f in H2.
         rewrite fm. apply H2. 
       + unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
@@ -143,8 +145,8 @@ Next Obligation.
     split.
     +  unfold plRefinement_func. intros. exists c1. split.
       -  unfold getFM_func. simpl. unfold getFM_func in H2. 
-        simpl in H2. destruct pl in H2. simpl in H2. destruct p in H2.
-        simpl in H2. destruct fm. rewrite f in H2. apply H2.
+        simpl in H2. destruct pl in H2. simpl in H2. destruct pls0 in H2. simpl in H2. destruct p. 
+        simpl in H2.  destruct fm. rewrite f in H2. apply H2.
       - unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
     + unfold wfPL_func. intros.
@@ -156,7 +158,8 @@ Next Obligation.
     unfold plRefinement_func. 
     intros. exists c1.  split.
       +  unfold getFM_func. simpl.  unfold getFM_func in H2. destruct pl in H2.
-        simpl in H2. destruct p in H2. simpl in H2. rewrite f in H2.
+        simpl in H2. destruct pls0 in H2. simpl in H2. destruct p. 
+        simpl in H2.  rewrite f in H2.
         rewrite fm. apply H2. 
       + unfold getCK_func. unfold getAM_func. simpl.
         apply assetRefinementReflexivity_axiom.
@@ -178,8 +181,8 @@ Next Obligation.
   intros.
     split.
     + apply equalsStrongerPL. reflexivity. 
-    + unfold strongerPLrefinement_func. intros. destruct H. specialize (H c1). specialize (H1 c1).
-      destruct c1. apply H in H0. destruct H0.
+    + unfold strongerPLrefinement_func. intros. destruct H. specialize (H c). specialize (H1 c).
+      destruct c. apply H in H0. destruct H0.
       split.
       - apply H1 in H0. destruct H0. apply H0.
       -  apply H1 in H0. destruct H0.  generalize H3. generalize H2. apply assetRefinementTranstivity_axiom.
@@ -196,4 +199,4 @@ Next Obligation.
         - apply H0.
         - generalize H3. generalize H2. apply assetRefinementTranstivity_axiom.
 
-} Qed.
+} Qed. 

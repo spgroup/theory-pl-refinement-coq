@@ -113,14 +113,17 @@ Admitted.
           wfCK_func (getFM pl) (getAM pl) ck2 /\
           wfPL (gerPL fm2 (getAM pl) ck2)         
        ).
-  Proof.
-  intuition.
+  Proof. 
+(*unfold plRefinement_func.
+  intros pl  ck item3 item4 items0 H. split.
+  +  intros c.  intros.
+     apply (replaceFeatureExp_EqualCKeval c) in H.
   + unfold plRefinement_func.  intros. exists c3. split.
       -  destruct gerPL. unfold getFM_func. simpl.  unfold getFM_func in H2. destruct pl in H2. 
         simpl in H2. destruct pls1. simpl in H2. destruct p.
         destruct pls0.  simpl in H2. destruct p.
         simpl in H2. destruct f, f0. simpl. apply H2. 
-  (*    -  
+    -  
 
 specialize (H7 an). destruct H7. destruct H10. destruct G, F.
         intuition.
@@ -290,16 +293,20 @@ Qed.
             conditionsSplitAssets a1 a2 a3 an1 an2 items
     )
     ->
-        forall c, set_In c (semantics_func (fst(fst pl))) /\ ~(satisfies_func (item1.(exp)) c)
+        forall c, set_In c (semantics_func (fst(fst pl))) /\ (satisfies_func (item1.(exp)) c)
     -> semantics_func_ (snd pl) (snd (fst pl)) c = app (a1::nil) (semantics_func_ items (snd (fst pl)) c) /\
        semantics_func_ ck2 am2 c = app (app (a2:: nil) (a3::nil)) (semantics_func_ items am2 c)). 
-    Proof. 
+    Proof.   
     destruct pl. destruct p. simpl. 
     intros am ck item1 item2 a1 a2 a3 an1 an2 items pairs.
-    induction item1, item2.
     unfold syntaxSplitAssets. unfold conditionsSplitAssets. 
-    simpl. intuition.
-  +  rewrite H4. rewrite H8. unfold wfCK_func in H1.
+    simpl. intros. intuition.
+  (*+   rewrite H6.  induction item1.
+
+
+unfold semantics_func_. 
+
+ rewrite H8. unfold wfCK_func in H1.
      destruct H1. destruct H9. specialize (H9 c0).
      intuition. specialize (H13 exp0). 
      rewrite H4 in H13. unfold wfFM_func in H1. 
@@ -308,7 +315,7 @@ Qed.
      rewrite H2. simpl.   admit.
   + rewrite H6. rewrite H10. case_eq (an_dec an1 an2).
     - intros. admit.
-    - intros. destruct an1, an2. intuition. 
+    - intros. destruct an1, an2. intuition. *)
     Admitted.
 
  Theorem splitEvalRemainingItems 

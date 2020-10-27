@@ -23,6 +23,7 @@ Class CKTrans (Ck FML IT T m Nm A N F:Type) {Mp: Maps A N m} {As: AssetTheory A 
   semantics_ : Ck ->  m -> set Nm -> set N;
   getNames   : F -> set FML;
   unionCK    : Ck -> Ck -> Ck;
+  wfCK       : F -> m -> Ck ->  Prop;
 
   (*===========Axioms - Lemmas - Theorems====================*)  
   similarFunctions: 

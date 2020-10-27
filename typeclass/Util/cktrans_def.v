@@ -20,8 +20,14 @@ Import FeatureModelSemantics.
 
   Inductive Transformation : Type.
 
-  Definition Item : Type := Formula * Transformation.
+  Record Item : Type := {
+  exp: Formula;
+  tasks: Transformation;
+}.
+
   Definition CK : Type := list Item.
+
+
   Axiom form_dec : forall x y:Formula, {x = y} + {x <> y}.
 
 
@@ -29,14 +35,18 @@ Import FeatureModelSemantics.
   Fixpoint exps_func (ck: CK) : set Formula :=
     match ck with
     | nil => nil
-    | x :: xs => set_union form_dec (set_add form_dec (fst x) nil) (exps_func xs)
+    | x :: xs => set_union form_dec (set_add form_dec (x.(exp)) nil) (exps_func xs)
     end. 
 
   (* get Formula*)
-  Definition getExp_func (it : Item) : Formula := fst it.
+  Definition getExp_func (it : Item) : Formula := it.(exp).
+
+ Definition wfCK_func (fm: FM) (am :AM) (ck: CK) : Prop :=
+      forall (exp : Formula), set_In exp (exps_func ck) -> wt_func fm exp.
+
   
   (* get Transformation*)
-  Definition getRS_func (it: Item) : Transformation := snd it.
+  Definition getRS_func (it: Item) : Transformation := it.(tasks).
 
   Parameter Inline(40) transform_func : Transformation -> AM-> AM -> AM.
   

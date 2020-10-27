@@ -19,6 +19,10 @@ Import Maps.
     set Asset -> set Asset -> Prop.
 
   Inductive wfProduct_ind (aSet : set Asset) : Prop.
+  Lemma wfaux: forall aSet, True -> wfProduct_ind aSet.
+  Proof.
+  intuition.
+  Qed.
 
   Axiom assetRefinementReflexivity_axiom:
     forall x: set Asset, assetRef_func x x.

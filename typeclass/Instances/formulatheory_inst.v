@@ -15,7 +15,7 @@ Program Instance FormulaTheory_Ins: FormulaTheory Formula Name FM :=
   wfTree:= wfTree_func;
   names_:= ns_func;
   wt:= wt_func;
-  wtFormulae:= wtFormulae_func;
+  wtFormulae:= wfFormulae_func;
   satisfies:= satisfies_func;
   my_set_add := my_set_add_func;
   my_set_remove := my_set_remove_func;
@@ -114,17 +114,14 @@ Program Instance FormulaTheory_Ins: FormulaTheory Formula Name FM :=
       rewrite H. reflexivity.
     - contradiction. 
 } Qed.
-  (*Next Obligation.
+  Next Obligation.
 { (*wtFormSameFeature*)
-  intros.
-  destruct H as [equals_abs_con wf_abs_con].
-  destruct wf_abs_con as [wf_abs wf_con].
-  induction f.
-    + rewrite equals_abs_con in H0. apply H0. 
-    + rewrite equals_abs_con in H0. apply H0. 
-    + simpl. simpl in H0. rewrite equals_abs_con in H0. apply H0. 
-    + apply IHf. apply H0. 
-    + rewrite equals_abs_con in H0. apply H0. 
-    + rewrite equals_abs_con in H0. apply H0. 
-
-} Qed. *)
+ induction f.
+    + auto. 
+    + auto. 
+    + simpl. simpl in H0. unfold ns_func in H.
+    rewrite H in H0. apply H0. 
+    + auto. 
+    + induction abs, con. simpl. destruct H0. intuition. 
+    + induction abs, con. simpl. destruct H0. intuition. 
+} Qed. 

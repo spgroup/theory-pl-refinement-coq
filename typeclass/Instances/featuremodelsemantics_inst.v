@@ -38,19 +38,23 @@ Program Instance FeatureModelSemantics_Int : FeatureModelSemantics Formula FM Na
 
 } Qed.
   Next Obligation.
-{ (*notMember*)
-    intros.
+ (* notMember*)
+    (*intros.
     unfold not in H.
     unfold not. 
     destruct opt.
     intro H2.
     destruct conf in H1.
-    + destruct fm. destruct f. 
-      - simpl in H1. apply H1.
+    + destruct fm. unfold wfFM_func in H. intuition.
+      
+
+
+destruct formulae. 
+      - destruct FM. simpl in H1. apply H1.
       - destruct n. destruct f; 
         simpl in H; apply H0; left; reflexivity.
 
     + destruct fm. destruct f.
       - simpl in H1. apply H1.
       - simpl in H. apply H0. left. rewrite n0. reflexivity.
-} Qed.
+} *) Admitted.

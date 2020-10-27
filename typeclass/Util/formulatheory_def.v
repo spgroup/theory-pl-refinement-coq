@@ -30,40 +30,39 @@ Fixpoint names_func (f : Formula) : set Name :=
     | IMPLIES_FORMULA f1 f2 => set_union name_dec_axiom  (names_func f1) (set_diff name_dec_axiom  (names_func f2) (names_func f1)) 
   end.
 
+
+Definition features : Type := set Name.
+Definition formulae : Type := set Formula.
+
+Definition FM : Type := features * formulae.
+
+(*yields names for a given feature model*)
+Definition ns_func (fm: FM)   := fst fm.
+(*yields formulas for a given feature model*)
+Definition formulas_func (fm: FM):= snd fm.
+
+Definition  wfTree_func (fm: FM): Prop := True.
+
 (* indicates whether a formula is well-typed*)
-Fixpoint wt_func (fs : set Name) (f : Formula) : Prop :=
+Fixpoint wt_func (fm : FM) (f : Formula) : Prop :=
   match f with
-    | TRUE_FORMULA => True
-    | FALSE_FORMULA => True
-    | NAME_FORMULA n1 =>  In n1 fs
-    | NOT_FORMULA f1 => wt_func fs f1
-    | AND_FORMULA f1 f2 => (wt_func fs f1) /\ (wt_func fs f2)  
-    | IMPLIES_FORMULA f1 f2 => (wt_func fs f1) /\ (wt_func fs f2)
+    | TRUE_FORMULA    => True
+    | FALSE_FORMULA   => True
+    | NAME_FORMULA n1 => set_In n1 (fst fm)
+    | NOT_FORMULA f1  => wt_func fm f1
+    | AND_FORMULA f1 f2     => (wt_func fm f1) /\ (wt_func fm f2)  
+    | IMPLIES_FORMULA f1 f2 => (wt_func fm f1) /\ (wt_func fm f2)
    end.
 
-  Definition features : Type := set Name.
-  Definition formulae : Type := set Formula.
-
-  Definition FM : Type := features * formulae.
-  Definition  wfTree_func (fm: FM): Prop := True.
-  Definition ns_func (fm : FM) : set Name := fst fm.
-
-
-Fixpoint wtFormulaeAux(fm : FM) (fs : formulae): Prop :=
-   match fs with 
-     | nil => True
-     | a1 :: x1 => (wt_func (fst fm) a1) /\ (wtFormulaeAux fm x1)
-   end.
-
-  Definition my_set_add_func (n: Name) (c: Configuration): Configuration :=
+Definition my_set_add_func (n: Name) (c: Configuration): Configuration :=
     set_add name_dec_axiom n c.
 
-   Definition my_set_remove_func (n: Name) (c: Configuration): Configuration :=
+Definition my_set_remove_func (n: Name) (c: Configuration): Configuration :=
     set_remove name_dec_axiom n c.
 
 (*indicates whether a feature model has all of its formulae well-typed*)
-Fixpoint wtFormulae_func (fm : FM) : Prop := 
-  wtFormulaeAux fm (snd fm).
+Definition wfFormulae_func (fm: FM) : Prop :=
+  forall (f: Formula), set_In f (snd fm) -> wt_func fm f.
 
 (*indicates when a configuration satisfies a formula*)
 Fixpoint satisfies_func (f: Formula) ( c : Configuration) : Prop :=

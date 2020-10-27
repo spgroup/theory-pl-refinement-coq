@@ -32,6 +32,7 @@ Require Export Coq.Lists.List.
      | True => true
    end.
 
+
   (** Checa se há um mapeamento entre uma chave e um determinado valor *)
   Fixpoint isMappable_func (s: map_) (l: S) (r: T): Prop :=
         match s with
@@ -41,6 +42,10 @@ Require Export Coq.Lists.List.
                           else (isMappable_func ps l r)
                        else (isMappable_func ps l r)
         end.
+
+  Definition unique s : Prop :=
+    forall (l: S) (r1 r2: T), 
+      (isMappable_func s l r1 /\ isMappable_func s l r2) -> r1 = r2.
 
   (** mapeamento único: se há um mapeamento entre uma chave para dois valores
       esses valores devem ser os mesmos.*)
@@ -124,6 +129,20 @@ Fixpoint union_s_func (ls1 ls2: set S) : set S:=
                                  else (maps_func defaulT s xs)
                    end
     end.
+
+   Lemma uniqueUnion:
+    forall m1 m2,
+      forall l,
+        set_In l (dom_func m1) -> ~(set_In l (dom_func m2))
+          -> unique(app m1 m2).
+  Proof.
+    intros. 
+    induction m1.
+      - induction m2.
+        + intuition. 
+        + intuition. destruct l. simpl in H, H0, H1. contradiction.
+       - induction m2.
+Admitted.
 
   Definition set_add_S_func (s: S) (s1: set S): set S := set_add Seq_dec s s1.
   Definition set_add_T_func (t: T) (t1: set T): set T := set_add Teq_dec t t1.

@@ -22,9 +22,9 @@ Class FeatureModelSemantics (FL F N: Type) {FormT: FormulaTheory FL N F} : Type 
   wtFormRefinement :
     forall (abs : F) (con : F), forall (name : N),
       set_In name (ns abs) -> set_In name (ns con) /\ (wfTree abs) /\
-        (wfTree con) -> (forall (f : FL), (wt (ns abs) f) -> (wt (ns con) f));
+        (wfTree con) -> (forall (f : FL), (wt abs f) -> (wt con f));
   notMember : 
-    forall (fm : F), wfFM fm = True -> ( forall (opt : N), 
+    forall (fm : F) (opt : N), 
       ~(set_In opt ( ns fm)) -> (forall (conf : set N), 
-        set_In conf (semantics fm) -> ~ (set_In opt (conf))))
+        set_In conf (semantics fm) -> ~ (set_In opt (conf)))
 }.  

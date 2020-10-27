@@ -64,4 +64,7 @@ Import SPL.
     Qed.
 
     Axiom fmref: FMRef = FMRef_Func.
+    Axiom equivalentCK_axiom:  equivalentCKs = equivalentCKs_func.
+    Axiom weakerEqCK_axiom:  weakerEqCK = weakerEqCK_func.
+    
 

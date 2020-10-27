@@ -26,7 +26,7 @@ Import FormulaTheory.
 Import Maps.
 Import AssetTheory.
 Import FeatureModelSemantics.
-Import CKTrans.
+Import CKTrans. 
 
 
 Program Instance CKTrans_Inst : CKTrans CK Formula Item Transformation map_ Name AssetName Asset FM :=
@@ -40,6 +40,7 @@ Program Instance CKTrans_Inst : CKTrans CK Formula Item Transformation map_ Name
   semantics_ := semantics_func_;
   getNames   := getNames_func;
   unionCK    := unionCK_func;
+  wfCK       := wfCK_func;
 
 }. Next Obligation.
 { (*similarFunctions*)

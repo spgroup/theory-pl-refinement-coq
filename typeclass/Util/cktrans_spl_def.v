@@ -39,4 +39,17 @@ Require Export Coq.Lists.List.
       forall c, set_In c (FMRef_Func fm) ->
         (CKSem_func ck1 am c = CKSem_func ck2 am c).
 
+   Lemma equalsCK2_lemma:
+  forall ck1 ck2, equivalentCKs_func ck1 ck2 -> ck1 = ck2.
+    Proof.
+    unfold equivalentCKs. 
+    unfold equivalentCKsAux. intros. destruct H.
+    (*+ rewrite equalsSetDiff.
+      - trivial.
+      - reflexivity.
+    + rewrite equalsSetDiff.
+      - trivial.
+      - reflexivity. *)
+     Admitted. 
+
 End CKTransSPL.

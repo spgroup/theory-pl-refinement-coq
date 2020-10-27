@@ -8,36 +8,36 @@ Require Export formulatheory_def.
 Import FormulaTheory.
 
   Definition wfFM_func (fm : FM) : Prop := (wfTree_func fm) /\ 
-    (wtFormulae_func fm).
+    (wfFormulae_func fm).
 
   Definition satImpConsts_func (fm : FM) (c : Configuration) : Prop := 
-    forall n: Name, set_In n (c) -> set_In n (fst fm).
+  forall n: Name, set_In n (c) -> set_In n (fst fm).
 
   Definition satExpConsts_func (fm : FM) (c : Configuration) : Prop := 
-    forall f: Formula, set_In f (snd fm) -> (satisfies_func f c = True).
+  forall f: Formula, set_In f (snd fm) -> (satisfies_func f c = True).
 
   Definition Is_truePB (b:Prop) : bool :=
     match b with
       | True => true
     end.
 
-  Fixpoint filter (fm:FM) (s: set Configuration) : set Configuration :=
+  Fixpoint filter_func (fm:FM) (s: set Configuration) : set Configuration :=
     match s with
     | nil => nil
     | a1 :: x1 => 
           if Is_truePB ((satImpConsts_func fm a1) /\
-              (satExpConsts_func fm a1)) then a1 :: filter fm x1 
-           else filter fm x1
+              (satExpConsts_func fm a1)) then a1 :: filter_func fm x1 
+           else filter_func fm x1
     end.
 
-  Fixpoint genConf (fm : features) : set Configuration := 
-    match fm with
-    | nil => nil
-    | x :: xs => (set_add conf_dec_axiom (set_add name_dec_axiom x (nil)) (genConf xs)) ++ (genConf xs)
+Fixpoint genConf_func (fm : set Name) : set Configuration := 
+  match fm with
+  | nil => nil
+  | x :: xs => (set_add conf_dec_axiom (set_add name_dec_axiom x (nil)) (genConf_func xs)) ++ (genConf_func xs)
   end.
  
   Definition semantics_func (fm : FM) : set Configuration := 
-    filter fm (genConf (fst fm)).
+    filter_func fm (genConf_func (ns_func fm)).
 
   Definition refines_func (abs : FM) (con : FM) : Prop := 
     if andb (Is_truePB (wfFM_func abs)) (Is_truePB(wfFM_func con)) then
